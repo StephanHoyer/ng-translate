@@ -5,10 +5,10 @@
     $provide.factory('translate', ['$log', function ($log) {
       var localizedStrings = {};
       var translate = function translate(sourceString) {
-        sourceString = sourceString.trim();
         if (!sourceString) {
           return '';
         }
+        sourceString = sourceString.trim();
         if (localizedStrings[sourceString]) {
           return localizedStrings[sourceString];
         } else {
@@ -31,8 +31,8 @@
         restrict: 'ECMA',
         compile: function compile(el, attrs) {
           if (attrs.translate) {
-            ng.foreach(attrs.translate.split(' '), function(v, k) {
-              el.attr(k, translate(attrs[k]));
+            ng.forEach(attrs.translate.split(' '), function(v, k) {
+              el.attr(v, translate(attrs[v]));
             });
           }
           return function preLink(scope, el, attrs) {
