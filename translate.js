@@ -17,7 +17,7 @@
         }
       };
       translate.add = function (translations) {
-        $.extend(localizedStrings, translations);
+        ng.extend(localizedStrings, translations);
       };
       return translate;
     }]);
@@ -31,10 +31,9 @@
         restrict: 'ECMA',
         compile: function compile(el, attrs) {
           if (attrs.translate) {
-            var translateAttrs = attrs.translate.split(' ');
-            for(var i=0; i<translateAttrs.length; i+=1) {
-              el.attr(translateAttrs[i], translate(attrs[translateAttrs[i]]));
-            }
+            ng.foreach(attrs.translate.split(' '), function(v, k) {
+              el.attr(k, translate(attrs[k]));
+            });
           }
           return function preLink(scope, el, attrs) {
             el.text(translate(el.text()));
