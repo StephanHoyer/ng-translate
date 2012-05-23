@@ -4,7 +4,7 @@
 
 Translation module for angularjs
 
-See it in action: <http://jsfiddle.net/cjesK/1/>
+See it in action: <http://jsfiddle.net/cjesK/2/>
 
 ## Credits
 
