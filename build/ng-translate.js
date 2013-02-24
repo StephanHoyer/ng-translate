@@ -1,3 +1,11 @@
+/**
+ * Translation module for angularjs.
+ * @version v0.0.1 - 2013-02-24
+ * @author Stephan Hoyer
+ * @link https://github.com/StephanHoyer/ng-translate
+ * @license MIT License, http://www.opensource.org/licenses/MIT
+ */
+
 (function (ng) {
   'use strict';
   /* Services */
