@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/StephanHoyer/ng-translate.png?branch=master)](https://travis-ci.org/StephanHoyer/ng-translate)
+
+
 # ng-translate
 
 ## Basics
