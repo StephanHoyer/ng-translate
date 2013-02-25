@@ -15,6 +15,8 @@ See it in action: <http://jsfiddle.net/cjesK/32/>
 
 Copyright (c) 2012 Stephan Hoyer <ste.hoyer@gmail.com>
 
+Contributors: [Francesco Pontillo](https://github.com/frapontillo)
+
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
 'Software'), to deal in the Software without restriction, including
