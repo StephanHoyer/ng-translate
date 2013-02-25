@@ -9,6 +9,12 @@ Translation module for angularjs
 
 See it in action: <http://jsfiddle.net/cjesK/32/>
 
+## Installation
+
+Just download, clone or fork it or install it using [bower](http://twitter.github.com/bower/)
+
+    $ bower install ng-translate
+
 ## Credits
 
 (The MIT License)
