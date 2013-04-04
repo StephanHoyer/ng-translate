@@ -2,7 +2,7 @@
   "author": "Stephan Hoyer",
   "name": "ng-translate",
   "description": "Translation module for angularjs.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/StephanHoyer/ng-translate",
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 /**
  * Translation module for angularjs.
- * @version v0.0.1 - 2013-02-24
+ * @version v0.0.2 - 2013-04-04
  * @author Stephan Hoyer
  * @link https://github.com/StephanHoyer/ng-translate
  * @license MIT License, http://www.opensource.org/licenses/MIT
@@ -52,13 +52,20 @@
         priority: 10, //Should be evaluated befor e. G. pluralize
         restrict: 'ECMA',
         compile: function compile(el, attrs) {
+          var translateInnerHtml = false;
           if (attrs.translate) {
-            ng.forEach(attrs.translate.split(' '), function(v, k) {
+            var attrsToTranslate = attrs.translate.split(' ')
+            ng.forEach(attrsToTranslate , function(v, k) {
               el.attr(v, translate(attrs[v]));
             });
+            translateInnerHtml = attrsToTranslate.indexOf('innerHTML') >= 0;
+          } else {
+            translateInnerHtml = true;
           }
           return function preLink(scope, el, attrs) {
-            el.text(translate(el.text()));
+            if (translateInnerHtml) {
+              el.text(translate(el.text()));
+            }
             $compile(el.contents())(scope);
           };
         }
