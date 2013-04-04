@@ -7,7 +7,7 @@
 
 Translation module for angularjs
 
-See it in action: <http://jsfiddle.net/cjesK/32/>
+See it in action: <http://jsfiddle.net/cjesK/53/>
 
 ## Installation
 
