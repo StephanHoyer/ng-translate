@@ -54,6 +54,18 @@ describe('translateDirective', function() {
       $rootScope.$apply();
       expect(element.attr('bar')).toBe('translation');
     }));
+    it('should translate elements attribute but not innerHTML', inject(function($compile, $rootScope, translate) {
+      var element = $compile('<div translate="bar" bar="value"/>foo</div>')($rootScope);
+      $rootScope.$apply();
+      expect(element.attr('bar')).toBe('translation');
+      expect(element.html()).toBe('<span class="ng-scope">foo</span>');
+    }));
+    it('should translate elements attribute and innerHTML if attr is set accordingly', inject(function($compile, $rootScope, translate) {
+      var element = $compile('<div translate="bar innerHTML" bar="value"/>foo</div>')($rootScope);
+      $rootScope.$apply();
+      expect(element.attr('bar')).toBe('translation');
+      expect(element.html()).toBe('<span class="ng-scope">translation</span>');
+    }));
   });
 });
 
