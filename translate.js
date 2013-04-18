@@ -56,7 +56,7 @@
           }
           return function preLink(scope, el, attrs) {
             if (translateInnerHtml) {
-              el.text(translate(el.text()));
+              el.html(translate(el.html()));
             }
             $compile(el.contents())(scope);
           };
