@@ -9,14 +9,27 @@
         if (!sourceString) {
           return '';
         }
-        sourceString = sourceString.trim();
-        if (localizedStrings[sourceString]) {
-          return localizedStrings[sourceString];
+        var keys = sourceString.trim().split('.');
+        var translation = localizedStrings;
+        keys.forEach(function (key) {
+          translation = (translation || {})[key];
+        });
+        if (typeof(translation) === 'string') {
+          return {
+            t: translation,
+            missing: false
+          };
         } else {
           if (log) $log.warn('Missing localisation for "' + sourceString + '"');
-          return sourceString;
+          return {
+            t: sourceString,
+            missing: true
+          };
         }
       };
+      translate.t = function (sourceString) {
+        return translate(sourceString).t;
+      }
       translate.add = function (translations) {
         ng.extend(localizedStrings, translations);
       };
@@ -48,7 +61,7 @@
           if (attrs.translate) {
             var attrsToTranslate = attrs.translate.split(' ')
             ng.forEach(attrsToTranslate , function(v, k) {
-              el.attr(v, translate(attrs[v]));
+              el.attr(v, translate(attrs[v]).t);
             });
             translateInnerHtml = attrsToTranslate.indexOf('innerHTML') >= 0;
           } else {
@@ -56,7 +69,8 @@
           }
           return function preLink(scope, el, attrs) {
             if (translateInnerHtml) {
-              el.html(translate(el.html()));
+              var tr = translate(el.html());
+              el.html((tr.missing ? '<span class="missing-translation">' : '') + tr.t + (tr.missing ? '</span>' : ''));
             }
             $compile(el.contents())(scope);
           };
