@@ -10,46 +10,55 @@ describe('translateService', function() {
   describe('translate', function() {
     it('should return translated string', inject(function(translate) {
       translate.add({'foo': 'bar'});
-      expect(translate('foo')).toEqual('bar');
+      expect(translate('foo')).toEqual({t: 'bar', missing: false});
       expect(mock.warn).wasNotCalled();
     }));
     it('should warn and return source string if no translation found', inject(function(translate) {
-      expect(translate('newfoo')).toEqual('newfoo');
+      expect(translate('newfoo')).toEqual({t: 'newfoo', missing: true});
       expect(mock.warn).toHaveBeenCalledWith('Missing localisation for "newfoo"');
     }));
     it('should warn and return source string if no translation found', inject(function(translate) {
       translate.set({'newfoo': 'newbar'});
-      expect(translate('newfoo')).toEqual('newbar');
+      expect(translate('newfoo')).toEqual({t: 'newbar', missing: false});
       expect(mock.warn).wasNotCalled();
     }));
     it('should warn and return source string if no translation found', inject(function(translate) {
       translate.remove('newfoo');
-      expect(translate('newfoo')).toEqual('newfoo');
+      expect(translate('newfoo')).toEqual({t: 'newfoo', missing: true});
       expect(mock.warn).toHaveBeenCalledWith('Missing localisation for "newfoo"');
     }));
     it('should warn and return source string if no translation found', inject(function(translate) {
       translate.logMissedHits(false);
-      expect(translate('newfoo')).toEqual('newfoo');
+      expect(translate('newfoo')).toEqual({t: 'newfoo', missing: true});
       expect(mock.warn).wasNotCalled();
     }));
     it('should not strip inner html elements', inject(function($compile, $rootScope, translate) {
       var html = 'aaa<span>foo</span>ccc'
-      var transhtml = 'bbb<span>bar</span>ddd'
+      var transhtml = 'bbb<span>bar</span>ddd';
       var translations = {};
     translations[html] = transhtml;
     translate.set(translations);
-    expect(translate(html)).toEqual(transhtml);
+    expect(translate.t(html)).toEqual(transhtml);
+    }));
+    it('should translate with several levels of translations', inject(function(translate) {
+      translate.add({'one': {'two': {'three': {'four': {'five': '5 levels'}}}}});
+      expect(translate('one.two.three.four.five')).toEqual({t: '5 levels', missing: false});
+      expect(mock.warn).wasNotCalled();
     }));
   });
 });
 describe('translateDirective', function() {
   var html = 'xxx<a>yyy</a>zzz';
-  var mock = function() { 
+  var html_missing = 'missing';
+  var mock = function() {
     return function(source) {
       if (source === 'html') {
-        return html;
+        return {t: html, missing: false};
       }
-      return 'translation';
+      if (source === 'missing') {
+        return {t: html_missing, missing: true};
+      }
+      return {t: 'translation', missing: false};
     };
   };
   beforeEach(function () {
@@ -83,10 +92,15 @@ describe('translateDirective', function() {
     it('should not strip inner html elements', inject(function($compile, $rootScope) {
       var element = $compile('<div translate>html</div>')($rootScope);
       $rootScope.$apply();
-      var compiledHtml = '<span class="ng-scope">xxx</span>' + 
+      var compiledHtml = '<span class="ng-scope">xxx</span>' +
                          '<a class="ng-scope">yyy</a>' +
                          '<span class="ng-scope">zzz</span>';
       expect(element.html()).toBe(compiledHtml);
+    }));
+    it('should add a class "missing-translation" when translation is missing', inject(function($compile, $rootScope) {
+      var element = $compile('<div translate>missing</div>')($rootScope);
+      $rootScope.$apply();
+      expect(element.html()).toBe('<span class="missing-translation ng-scope">missing</span>');
     }));
   });
 });
