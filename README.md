@@ -1,3 +1,8 @@
+# Attention
+
+This module is not activliy maintained anymore since I don't use angular.js anymore. If any one want's to overtake this, drop me a line.
+
+
 [![Build Status](https://travis-ci.org/StephanHoyer/ng-translate.png?branch=master)](https://travis-ci.org/StephanHoyer/ng-translate)
 
 
